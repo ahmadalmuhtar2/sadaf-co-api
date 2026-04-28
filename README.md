@@ -1,98 +1,111 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="_blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h1 align="center">Sadaf &amp; Co. — API</h1>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  E-commerce backend for <a href="https://sadafandco.com" target="_blank"><b>Sadaf &amp; Co.</b></a> — a luxury brand selling handcrafted mother-of-pearl <em>(صدف)</em> inlay furniture from artisan workshops in Syria and Lebanon.
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+<p align="center">
+  <img src="https://img.shields.io/badge/NestJS-11-E0234E?logo=nestjs&logoColor=white" alt="NestJS 11" />
+  <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Prisma-7-2D3748?logo=prisma&logoColor=white" alt="Prisma 7" />
+  <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL 16" />
+  <img src="https://img.shields.io/badge/Redis-7-DC382D?logo=redis&logoColor=white" alt="Redis 7" />
+  <img src="https://img.shields.io/badge/Zod-validation-3E67B1?logo=zod&logoColor=white" alt="Zod" />
+  <img src="https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white" alt="Docker" />
+</p>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## Overview
+
+A modular **NestJS** monolith powering the Sadaf &amp; Co. storefront and admin operations. Designed to split cleanly into microservices (catalog, orders, notifications) once domain boundaries are proven.
+
+The Next.js storefront lives in a separate repository.
+
+---
+
+## Stack
+
+| Layer        | Technology                                  |
+| ------------ | ------------------------------------------- |
+| Framework    | NestJS 11                                   |
+| Language     | TypeScript (strict)                         |
+| ORM          | Prisma 7 with `@prisma/adapter-pg`          |
+| Database     | PostgreSQL 16                               |
+| Cache/Broker | Redis 7                                     |
+| Validation   | Zod &middot; `nestjs-zod` &middot; `zod-prisma-types` |
+| Testing      | Jest                                        |
+| Infra (dev)  | Docker Compose                              |
+| Infra (prod) | AWS (planned)                               |
+
+---
+
+## Prerequisites
+
+- **Node.js** 22+
+- **Docker** &amp; **Docker Compose**
+
+---
+
+## Quickstart
 
 ```bash
-$ npm install
+# 1. Install dependencies
+npm install
+
+# 2. Start Postgres + Redis
+docker compose up -d
+
+# 3. Create your .env (see .env example below)
+
+# 4. Apply migrations + generate Prisma client and Zod schemas
+npx prisma migrate dev
+
+# 5. Run the API in watch mode
+npm run start:dev
 ```
 
-## Compile and run the project
+Example `.env`:
+
+```env
+PORT=9999
+DATABASE_URL="postgresql://ahmad:ASKsome123@localhost:4444/sadaf?schema=public"
+```
+
+---
+
+## Scripts
 
 ```bash
-# development
-$ npm run start
+npm run start:dev           # watch mode
+npm run build               # compile to dist/
+npm run start:prod          # run compiled
+npm run test                # unit tests
+npm run test:e2e            # e2e tests
+npm run lint                # eslint --fix
+npm run format              # prettier --write
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npx prisma migrate dev      # apply schema changes locally
+npx prisma generate         # regenerate Prisma client + Zod schemas
+npx prisma studio           # DB GUI on http://localhost:5555
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## Conventions
 
-# e2e tests
-$ npm run test:e2e
+- **Modular monolith first.** Microservice split planned once boundaries are proven.
+- **One class per file.** `kebab-case.ts` filenames, `PascalCase` class names.
+- **Zod at the boundary.** DTOs derive types from the Prisma model schema where possible — Zod is the single source of truth for HTTP input validation.
+- **Layered access.** Controllers don&rsquo;t touch Prisma; they call services. Services own DB access and business rules.
+- **Money as integers.** Prices are stored as `priceCents: Int` to avoid floating-point bugs.
 
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+UNLICENSED — internal project.
